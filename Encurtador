@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Encurta.net</title>
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 20px;
+      transition: all 0.3s ease;
+    }
+    h2 {
+      margin-bottom: 30px;
+      text-align: center;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+    }
+    input[type="text"] {
+      padding: 12px;
+      width: 100%;
+      max-width: 300px;
+      border: 2px solid #00ffff;
+      border-radius: 10px;
+      background: #1e1e1e;
+      color: #00ffff;
+      margin-bottom: 20px;
+      outline: none;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    input[type="text"]:focus {
+      box-shadow: 0 0 10px #00ffff;
+      transform: scale(1.02);
+    }
+    button {
+      background: #00ffff;
+      color: #000;
+      padding: 12px 30px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    button:hover {
+      box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+      transform: scale(1.05);
+    }
+    .super-link {
+      font-size: 22px;
+      color: #00ffff;
+      font-weight: bold;
+      margin-bottom: 15px;
+      display: block;
+      text-shadow: 0 0 10px #00ffff;
+    }
+    .link-box {
+      background: #1e1e1e;
+      color: #00ffff;
+      padding: 15px;
+      border-radius: 15px;
+      width: 100%;
+      max-width: 320px;
+      word-break: break-all;
+      text-align: center;
+      margin: 0 auto;
+      box-shadow: 0 0 20px #00ffff;
+      border: 2px solid #00ffff;
+      transition: transform 0.3s;
+    }
+    .link-box:hover {
+      transform: scale(1.02);
+    }
+    a {
+      color: #00ffff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    #modeContainer {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 14px;
+      color: #00ffff;
+    }
+    #modeButton {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #00ffff;
+      cursor: pointer;
+      text-shadow: 0 0 5px #00ffff;
+    }
+  </style>
+</head>
+<body>
+  <div id="modeContainer">
+    <span>Dispositivo:</span>
+    <button id="modeButton" onclick="toggleMode()">🖥️</button>
+  </div>
+
+  <!-- Primeira parte: Formulário -->
+  <div id="inicioSection">
+    <h2>Digite seu link para encurtar 👇🏻</h2>
+    <input type="text" id="linkInput" placeholder="Cole o link aqui">
+    <button onclick="encurtarLink()">Encurtar</button>
+  </div>
+
+  <!-- Segunda parte: Verify -->
+  <div id="verifySection" style="display: none;">
+    <h2>Clique no botão abaixo para liberar o seu link👇🏻</h2>
+    <button onclick="mostrarLink()">verify</button>
+  </div>
+
+  <!-- Terceira parte: Link gerado -->
+  <div id="linkSection" style="display: none;">
+    <h2>Seu link está pronto! 🎉</h2>
+    <span class="super-link">Seu link:</span>
+    <div class="link-box" id="linkBox">
+      <a href="#" target="_blank" id="finalLink"></a>
+    </div>
+  </div>
+
+  <script>
+    let inputLink = "";
+    let isMobileMode = true;
+
+    function encurtarLink() {
+      inputLink = document.getElementById("linkInput").value.trim();
+      if (!inputLink) {
+        alert("Por favor, insira um link!");
+        return;
+      }
+
+      document.getElementById("inicioSection").style.display = "none";
+      document.getElementById("verifySection").style.display = "flex";
+      document.getElementById("verifySection").style.flexDirection = "column";
+      document.getElementById("verifySection").style.alignItems = "center";
+    }
+
+    function mostrarLink() {
+      const finalLink = document.getElementById("finalLink");
+      finalLink.href = inputLink;
+      finalLink.textContent = inputLink;
+
+      document.getElementById("verifySection").style.display = "none";
+      document.getElementById("linkSection").style.display = "flex";
+      document.getElementById("linkSection").style.flexDirection = "column";
+      document.getElementById("linkSection").style.alignItems = "center";
+    }
+
+    function toggleMode() {
+      if (isMobileMode) {
+        // Modo computador
+        document.body.style.maxWidth = "900px";
+        document.body.style.margin = "0 auto";
+        document.getElementById("modeButton").textContent = "📱";
+        isMobileMode = false;
+      } else {
+        // Modo celular
+        document.body.style.maxWidth = "400px";
+        document.body.style.margin = "0 auto";
+        document.getElementById("modeButton").textContent = "🖥️";
+        isMobileMode = true;
+      }
+    }
+
+    // Define inicialmente como modo celular
+    document.body.style.maxWidth = "400px";
+    document.body.style.margin = "0 auto";
+  </script>
+</body>
+</html>
